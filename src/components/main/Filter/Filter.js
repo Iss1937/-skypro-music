@@ -21,9 +21,9 @@ export default function Filter() {
     'Frank Sinatra',
     'Calvin Harris',
     'Zhu',
-    'Алла Пугачева',
-    'Скриптонит',
-    'Бузова',
+    'Kid Cudi',
+    'The Notorius B.I.G.',
+    '2Pac',
   ]
   const genreList = ['Рок', 'Хип-хоп', 'Поп-музыка', 'Техно', 'Инди', 'Рэп']
 
