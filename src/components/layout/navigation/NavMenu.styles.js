@@ -50,3 +50,8 @@ export const BurgerLine = styled.span`
   height: 1px;
   background-color: #d3d3d3;
 `
+export const MainNav = styled.nav`
+  width: 244px;
+  background-color: #181818;
+  padding: 20px 0 20px 36px;
+`
