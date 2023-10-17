@@ -1,4 +1,4 @@
-import * as S from './NavMenu.styles'
+import * as S from './Menu.styles'
 
 function MenuItem(props) {
   return (

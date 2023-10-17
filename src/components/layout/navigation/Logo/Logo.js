@@ -1,4 +1,4 @@
-import * as S from './NavMenu.styles'
+import * as S from './Logo.styles'
 
 export default function Logo() {
   return (

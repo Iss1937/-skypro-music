@@ -13,7 +13,6 @@ const SkeletonPlaylists = () => {
               <div
                 className="react-loading-skeleton"
                 style={{
-                  width: '250px',
                   height: '150px',
                   backgroundColor: 'rgba(49, 49, 49, 1)',
                 }}

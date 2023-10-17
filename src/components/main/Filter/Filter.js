@@ -20,7 +20,7 @@ export default function Filter() {
     'Frank Sinatra',
     'Calvin Harris',
     'Zhu',
-    'Kif Cudi',
+    'Kid Cudi',
     'The Notorius B.I.G',
     '2Pac',
   ]
