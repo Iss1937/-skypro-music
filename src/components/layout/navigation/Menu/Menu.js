@@ -1,20 +1,26 @@
+import { NavLink } from 'react-router-dom'
 import * as S from './Menu.styles'
 
-function MenuItem(props) {
+function MenuItem({ name, path }) {
   return (
     <S.MenuItem>
-      <S.MenuLink href="http://">{props.name}</S.MenuLink>
+      <NavLink to={`${path}`}>
+        <S.MenuLink>{name}</S.MenuLink>
+      </NavLink>
     </S.MenuItem>
   )
 }
-
 export default function Menu() {
-  const links = ['Главное', 'Мой плейлист', 'Войти']
+  const links = [
+    { id: 1, name: 'Главное', path: '/' },
+    { id: 2, name: 'Мой плейлист', path: '/favorites' },
+    { id: 3, name: 'Выйти', path: '/logout' },
+  ]
   return (
     <S.NavMenu>
       <S.MenuList>
         {links.map((link) => (
-          <MenuItem key={link} name={link} />
+          <MenuItem key={link.id} name={link.name} path={link.path} />
         ))}
       </S.MenuList>
     </S.NavMenu>

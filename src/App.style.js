@@ -45,7 +45,14 @@ body {
   height: 100%;
   font-family: 'StratosSkyeng', sans-serif;
   color: #ffffff;
-}`
+}
+.wrapper {
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background-color: #383838;
+}
+`
 
 export const Button = styled.div`
   cursor: pointer;
