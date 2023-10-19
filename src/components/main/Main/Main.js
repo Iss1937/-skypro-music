@@ -1,13 +1,14 @@
 import NavBar from '../../layout/navigation/NavBar/NavBar'
 import CenterBlock from '../CenterBlock/CenterBlock'
 import Sidebar from '../Sidebar/Sidebar'
+import * as S from './Main.styles'
 
-export default function Main(props) {
+export default function Main({ loading }) {
   return (
-    <main className="main">
+    <S.Main>
       <NavBar />
-      <CenterBlock loading={props.loading}/>
-      <Sidebar loading={props.loading} />
-    </main>
+      <CenterBlock loading={loading} />
+      <Sidebar loading={loading} />
+    </S.Main>
   )
 }
