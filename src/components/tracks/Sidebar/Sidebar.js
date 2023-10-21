@@ -14,9 +14,11 @@ function Person({ name }) {
 function PlaylistsItem(props) {
   return (
     <S.PlaylistsItem>
-      <S.PlaylistsItemLink href={props.link}>
-        <S.PlaylistsItemImage src={props.imageUrl} alt="day's playlist" />
-      </S.PlaylistsItemLink>
+      <Link to={`${props.path}/${props.id}`}>
+        <S.PlaylistsItemLink>
+          <S.PlaylistsItemImage src={props.imageUrl} alt="day's playlist" />
+        </S.PlaylistsItemLink>
+      </Link>
     </S.PlaylistsItem>
   )
 }
@@ -34,7 +36,8 @@ function Playlists({ loading }) {
         playlistItems.map((playlist) => (
           <PlaylistsItem
             key={playlist.id}
-            link={playlist.link}
+            id={playlist.id}
+            path={playlist.path}
             imageUrl={playlist.imgUrl}
           />
         ))}

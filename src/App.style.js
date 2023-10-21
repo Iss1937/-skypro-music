@@ -1,6 +1,6 @@
 import styled, { createGlobalStyle } from 'styled-components'
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
 * {
   margin: 0;
   padding: 0;
@@ -50,7 +50,7 @@ body {
   width: 100%;
   min-height: 100%;
   overflow: hidden;
-  background-color: #383838;
+  background-color: #181818;
 }
 `
 

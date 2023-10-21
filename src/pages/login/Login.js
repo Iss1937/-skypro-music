@@ -1,17 +1,12 @@
-import { Link, Navigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import * as S from './Login.styles'
 
-const Login = () => {
+const Login = ({ onAuthButtonClick }) => {
   return (
     <S.Login>
       <h1>Страница входа</h1>
       <Link to="/">
-        <button
-          style={{ width: '150px', height: '40px' }}
-          onClick={() => {
-            document.cookie = 'token=value;path=/'
-          }}
-        >
+        <button onClick={onAuthButtonClick} to="/">
           Войти
         </button>
       </Link>

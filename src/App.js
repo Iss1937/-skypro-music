@@ -1,26 +1,30 @@
-import { useState, useEffect } from 'react'
-import * as S from './App.style'
-import GlobalStyle from './App.style'
-import { AppRoutes } from './routes'
+import { useState } from 'react'
+import AppRoutes from './routes'
 
 function App() {
-  const [loading, setLoading] = useState(false)
-  const token = document.cookie.indexOf('token')
+  const [user, setUser] = useState(false)
+  console.log(localStorage)
 
-  useEffect(() => {
-    setLoading(true)
-    const timer = setTimeout(() => {
-      setLoading(false)
-    }, 3000)
-    return () => clearTimeout(timer)
-  }, [])
+  const handleLogin = () => {
+    localStorage.setItem('user', 'true')
+    const curentLocalStorage = localStorage.getItem('user')
+    console.log(curentLocalStorage)
+    setUser(curentLocalStorage)
+    // setUser(true);
+    // console.log(user)
+  }
 
+  // const handleLogout = () => {
+  //   localStorage.removeItem('user');
+  //   const curentLocalStorage = localStorage.getItem('user');
+  //   console.log(curentLocalStorage)
+  //   setUser(curentLocalStorage);
+  //   // setUser(false);
+  //   // console.log(user)
+  // }
   return (
     <>
-      <GlobalStyle />
-      <S.App>
-        <AppRoutes loading={loading} token={token} />
-      </S.App>
+      <AppRoutes user={user} onAuthButtonClick={handleLogin} />
     </>
   )
 }

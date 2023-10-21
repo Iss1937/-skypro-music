@@ -1,4 +1,4 @@
-import * as S from './Logo.styles'
+import * as S from "./Logo.styles";
 
 export default function Logo() {
   return (

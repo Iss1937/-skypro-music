@@ -68,8 +68,8 @@ export const PlayerButton = styled.div`
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  margin-right: 23px;
 `
-
 export const PlayerButtonRepeat = styled(PlayerButton)`
   margin-right: 24px;
   &:hover svg {

@@ -4,25 +4,27 @@ import NotFound from './pages/not-found/NotFound'
 import Favorites from './pages/favorites/Favorites'
 import Category from './pages/category/Category'
 import Login from './pages/login/Login'
-import {
-  ProtectedRoute,
-  ProtectedRouteLogout,
-} from './components/protected-route/ProtectedRoute'
+import ProtectedRoute from './components/protected-route/ProtectedRoute'
 import Register from './pages/register/Register'
 
-export const AppRoutes = ({ loading, token }) => {
+function AppRoutes({ user, onAuthButtonClick }) {
   return (
     <Routes>
-      <Route element={<ProtectedRoute isAuth={Boolean(token)} />}>
-        <Route path="/" element={<Main loading={loading} />} />
-        <Route path="/favorites" element={<Favorites />} />
-        <Route path="/category/:id" element={<Category />} />
-      </Route>
-      <Route path="/login" element={<Login />} />
+      <Route
+        path="/login"
+        element={<Login onAuthButtonClick={onAuthButtonClick} />}
+      />
       <Route path="/register" element={<Register />} />
-      <Route path="/logout" element={<ProtectedRouteLogout />} />
+
+      <Route element={<ProtectedRoute isAllowed={Boolean(user)} />}>
+        <Route path="/" element={<Main />} />
+        <Route path="/category/:id" element={<Category />} />
+        <Route path="/favorites" element={<Favorites />} />
+      </Route>
 
       <Route path="*" element={<NotFound />} />
     </Routes>
   )
 }
+
+export default AppRoutes

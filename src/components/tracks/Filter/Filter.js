@@ -20,9 +20,9 @@ export default function Filter() {
     'Frank Sinatra',
     'Calvin Harris',
     'Zhu',
-    'Kid Cudi',
-    'The Notorius B.I.G',
-    '2Pac',
+    'Алла Пугачева',
+    'Скриптонит',
+    'Бузова',
   ]
   const genreList = ['Рок', 'Хип-хоп', 'Поп-музыка', 'Техно', 'Инди', 'Рэп']
 
@@ -54,23 +54,13 @@ export default function Filter() {
           <S.FilterSelectorYear>
             <S.FilterRadioButtons>
               <div>
-                <S.FilterRadioButton
-                  id="radio-1"
-                  type="radio"
-                  name="radio"
-                  value="0"
-                />
+                <S.FilterRadioButton id="radio-1" type="radio" name="radio" value="0" />
                 <S.FilterRadioButtonLabel htmlFor="radio-1">
                   Более новые
                 </S.FilterRadioButtonLabel>
               </div>
               <div>
-                <S.FilterRadioButton
-                  id="radio-2"
-                  type="radio"
-                  name="radio"
-                  value="1"
-                />
+                <S.FilterRadioButton id="radio-2" type="radio" name="radio" value="1" />
                 <S.FilterRadioButtonLabel htmlFor="radio-2">
                   Более старые
                 </S.FilterRadioButtonLabel>
