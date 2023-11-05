@@ -1,6 +1,6 @@
 import styled, { createGlobalStyle } from 'styled-components'
 
-const GlobalStyle = createGlobalStyle`
+export const GlobalStyle = createGlobalStyle`
 * {
   margin: 0;
   padding: 0;
@@ -45,7 +45,14 @@ body {
   height: 100%;
   font-family: 'StratosSkyeng', sans-serif;
   color: #ffffff;
-}`
+}
+.wrapper {
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background-color: #181818;
+}
+`
 
 export const Button = styled.div`
   cursor: pointer;

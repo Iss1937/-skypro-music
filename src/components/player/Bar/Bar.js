@@ -11,7 +11,11 @@ function VolumeBlock() {
           </S.VolumeSvg>
         </S.VolumeImage>
         <S.VolumeProgress>
-          <input style={{ width: '109px' }} type="range" name="range" />
+          <input
+            style={ {width:'109px'}}
+            type="range"
+            name="range"
+          />
         </S.VolumeProgress>
       </S.VolumeContent>
     </S.VolumeBlock>

@@ -1,25 +1,31 @@
-import { useState, useEffect } from 'react'
-import Bar from './components/player/Bar/Bar'
-import Main from './components/main/Main/Main'
-import Footer from './components/layout/footer/Footer'
+import { useState } from 'react'
+import AppRoutes from './routes'
 
 function App() {
-  const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState(false)
+  console.log(localStorage)
 
-  useEffect(() => {
-    setLoading(true)
-    const timer = setTimeout(() => {
-      setLoading(false)
-    }, 3000)
-    return () => clearTimeout(timer)
-  }, [])
+  const handleLogin = () => {
+    localStorage.setItem('user', 'true')
+    const curentLocalStorage = localStorage.getItem('user')
+    console.log(curentLocalStorage)
+    setUser(curentLocalStorage)
+    // setUser(true);
+    // console.log(user)
+  }
 
+  // const handleLogout = () => {
+  //   localStorage.removeItem('user');
+  //   const curentLocalStorage = localStorage.getItem('user');
+  //   console.log(curentLocalStorage)
+  //   setUser(curentLocalStorage);
+  //   // setUser(false);
+  //   // console.log(user)
+  // }
   return (
-    <div className="App container">
-      <Main loading={loading} />
-      <Bar />
-      <Footer />
-    </div>
+    <>
+      <AppRoutes user={user} onAuthButtonClick={handleLogin} />
+    </>
   )
 }
 

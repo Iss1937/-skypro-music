@@ -7,10 +7,12 @@ const SkeletonMusic = () => {
     <>
       {Array(count)
         .fill()
-        .map((item, index) => (
+        .map((item,index) => (
           <S.Music key={index}>
             <S.Track>
-              <S.TrackTitle style={{ width: 'auto' }}>
+              <S.TrackTitle
+                style={{ width: 'auto' }}
+              >
                 <S.TrackTitleImage
                   className="react-loading-skeleton"
                   style={{
