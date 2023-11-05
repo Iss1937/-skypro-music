@@ -1,20 +1,21 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { Routes, Route } from 'react-router-dom'
-import Main from './pages/main/Main'
-import NotFound from './pages/not-found/NotFound'
-import Favorites from './pages/favorites/Favorites'
-import Category from './pages/category/Category'
-import Login from './pages/login/Login'
-import ProtectedRoute from './components/protected-route/ProtectedRoute'
-import Register from './pages/register/Register'
+import Main from './pages/main'
+import Category from './pages/category'
+import Favorites from './pages/favorites'
+import NotFound from './pages/not-found'
+import LogIn from './pages/login'
+import Registration from './pages/register'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function AppRoutes({ user, onAuthButtonClick }) {
   return (
     <Routes>
       <Route
         path="/login"
-        element={<Login onAuthButtonClick={onAuthButtonClick} />}
+        element={<LogIn onAuthButtonClick={onAuthButtonClick} />}
       />
-      <Route path="/register" element={<Register />} />
+      <Route path="/register" element={<Registration />} />
 
       <Route element={<ProtectedRoute isAllowed={Boolean(user)} />}>
         <Route path="/" element={<Main />} />
