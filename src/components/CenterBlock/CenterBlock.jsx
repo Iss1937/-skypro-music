@@ -30,7 +30,7 @@ function CenterBlock({
             isLoaded={isLoaded}
             tracks={tracks}
             currentTrack={currentTrack}
-            setCurrentTrack={setCurrentTrackID}
+            setCurrentTrackID={setCurrentTrackID}
           />
         )}
       </S.CenterblockContent>

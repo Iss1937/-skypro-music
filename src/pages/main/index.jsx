@@ -6,7 +6,7 @@ import Nav from '../../components/Nav/Nav'
 import SideBar from '../../components/SideBar/SidBar'
 import Footer from '../../components/Footer/Footer'
 import trackArr from '../../utilits/trackArr'
-import { getTracks } from '../../api'
+import { getAllTracks } from '../../api'
 
 import * as S from './styles'
 
@@ -20,7 +20,7 @@ function Main() {
 
   useEffect(() => {
     setIsLoaded(false)
-    getTracks()
+    getAllTracks()
       .then((tracksArr) => {
         setTrackArr(tracksArr)
       })
@@ -58,7 +58,7 @@ function Main() {
 
           <SideBar isLoaded={isLoaded} />
         </S.Content>
-        {currentTrack && (
+        {currentTrackID && (
           <Bar
             isLoaded={isLoaded}
             currentTrack={currentTrack}

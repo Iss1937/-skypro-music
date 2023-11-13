@@ -1,10 +1,11 @@
 import * as S from './styles'
+import getDuration from '../../utilits/getduration'
 
 export default function PlayList({ isLoaded, tracks, setCurrentTrackID }) {
   const handleCurrentTrack = (track) => {
     setCurrentTrackID(track.id)
-    console.log('click')
   }
+
   const fullPlayList = tracks.map((track) => (
     <S.PlaylistItem key={track.id} onClick={() => handleCurrentTrack(track)}>
       <S.PlaylistTrack>
@@ -47,7 +48,9 @@ export default function PlayList({ isLoaded, tracks, setCurrentTrackID }) {
               <S.TrackTimeSvg alt="time">
                 <use xlinkHref="img/icon/sprite.svg#icon-like" />
               </S.TrackTimeSvg>
-              <S.TrackTimeText>{track.release_date}</S.TrackTimeText>
+              <S.TrackTimeText>
+                {getDuration(track.duration_in_seconds)}
+              </S.TrackTimeText>
             </S.TrackTime>
           </>
         ) : (

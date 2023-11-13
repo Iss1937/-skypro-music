@@ -1,13 +1,17 @@
+/* eslint-disable no-param-reassign */
+/* eslint-disable jsx-a11y/media-has-caption */
+import { useEffect } from 'react'
 import * as S from './styles'
-import { useRef } from 'react'
 
 export default function PlayerControl({
   isPlaying,
   setIsPlaying,
   currentTrack,
+  isRepeat,
+  setIsRepeat,
+  playRef,
+  volume,
 }) {
-  const playRef = useRef(null)
-
   const handleClick = () => {
     if (isPlaying) {
       playRef.current.pause()
@@ -17,21 +21,56 @@ export default function PlayerControl({
       setIsPlaying(true)
     }
   }
+
+  useEffect(() => {
+    if (isPlaying && currentTrack) {
+      playRef.current.play()
+    } else {
+      playRef.current.pause()
+    }
+  }, [isPlaying, currentTrack, playRef])
+
+  const repeatClick = () => {
+    playRef.current.loop = !isRepeat
+    setIsRepeat(!isRepeat)
+  }
+
+  useEffect(() => {
+    if (playRef && currentTrack) {
+      playRef.current.volume = volume
+    }
+  }, [currentTrack, playRef, volume])
+
+  const prevClick = () => {
+    alert('Еще не реализовано')
+  }
+
+  const nextClick = () => {
+    alert('Еще не реализовано')
+  }
+
+  const shuffleClick = () => {
+    alert('Еще не реализовано')
+  }
+
   return (
     <S.PlayerControls>
       <S.AudioComponent
         controls
-        src={currentTrack.track_file}
+        src={currentTrack?.track_file}
         ref={playRef}
         autoPlay
       />
       <S.PlayerBtnPrev>
-        <S.PlayerBtnPrevSvg alt="prev">
+        <S.PlayerBtnPrevSvg alt="prev" onClick={prevClick}>
           <use xlinkHref="img/icon/sprite.svg#icon-prev" />
         </S.PlayerBtnPrevSvg>
       </S.PlayerBtnPrev>
       <S.PlayerBtnPlay>
-        <S.PlayerBtnPlaySvg alt="play" onClick={handleClick}>
+        <S.PlayerBtnPlaySvg
+          alt={isPlaying ? 'play' : 'pause'}
+          onClick={handleClick}
+        >
           {isPlaying ? (
             <use xlinkHref="/img/icon/sprite.svg#icon-pause" />
           ) : (
@@ -40,17 +79,21 @@ export default function PlayerControl({
         </S.PlayerBtnPlaySvg>
       </S.PlayerBtnPlay>
       <S.PlayerBtnNext>
-        <S.PlayerBtnNextSvg alt="next">
+        <S.PlayerBtnNextSvg alt="next" onClick={nextClick}>
           <use xlinkHref="img/icon/sprite.svg#icon-next" />
         </S.PlayerBtnNextSvg>
       </S.PlayerBtnNext>
-      <S.PlayerBtnRepeat className=" _btn-icon">
-        <S.PlayerBtnRepeatSvg alt="repeat">
+      <S.PlayerBtnRepeat>
+        <S.PlayerBtnRepeatSvg
+          $isRepeat={isRepeat}
+          alt="repeat"
+          onClick={repeatClick}
+        >
           <use xlinkHref="img/icon/sprite.svg#icon-repeat" />
         </S.PlayerBtnRepeatSvg>
       </S.PlayerBtnRepeat>
-      <S.PlayerBtnShuffle className=" _btn-icon">
-        <S.PlayerBtnShuffleSvg alt="shuffle">
+      <S.PlayerBtnShuffle>
+        <S.PlayerBtnShuffleSvg alt="shuffle" onClick={shuffleClick}>
           <use xlinkHref="img/icon/sprite.svg#icon-shuffle" />
         </S.PlayerBtnShuffleSvg>
       </S.PlayerBtnShuffle>

@@ -1,7 +1,7 @@
+import { useEffect } from 'react'
 import * as S from './styles'
 import PlayerControl from '../PlayerControl/PlayerControl'
 import PlayerTrackPlay from '../PlayerTrackPlay/PlayerTrackPlay'
-import { useEffect } from 'react'
 import { getTracksByID } from '../../api'
 
 export default function Player({
@@ -11,6 +11,10 @@ export default function Player({
   setIsPlaying,
   currentTrackID,
   setCurrentTrack,
+  isRepeat,
+  setIsRepeat,
+  playRef,
+  volume,
 }) {
   useEffect(() => {
     getTracksByID(currentTrackID).then((track) => {
@@ -24,13 +28,16 @@ export default function Player({
     // });
   }, [currentTrackID])
 
-  console.log(currentTrackID)
   return (
     <S.BarPlayer>
       <PlayerControl
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         currentTrack={currentTrack}
+        isRepeat={isRepeat}
+        setIsRepeat={setIsRepeat}
+        playRef={playRef}
+        volume={volume}
       />
       <PlayerTrackPlay isLoaded={isLoaded} currentTrack={currentTrack} />
     </S.BarPlayer>

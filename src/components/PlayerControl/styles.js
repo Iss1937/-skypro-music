@@ -91,21 +91,22 @@ export const PlayerBtnRepeat = styled.div`
 `
 
 export const PlayerBtnRepeatSvg = styled.svg`
-  width: 18px;
-  height: 12px;
-  fill: transparent;
-  stroke: #696969;
-  &:hover {
+    width: 18px;
+    height: 12px;
     fill: transparent;
-    stroke: #acacac;
-    cursor: pointer;
-  }
-  &:active {
-    fill: transparent;
-    stroke: #ffffff;
-    cursor: pointer;
-  }
-`
+   stroke: ${(props) => (props.$isRepeat ? '#FFFFFF' : '#696969')};
+    )}
+    &:hover {
+      fill: transparent;
+      stroke: #acacac;
+      cursor: pointer;
+    }
+    &:active {
+      fill: transparent;
+      stroke: #ffffff;
+      cursor: pointer;
+    }
+  `
 
 export const PlayerBtnShuffle = styled.div`
   ${PlayerBthMixin};
@@ -137,10 +138,3 @@ export const AudioComponent = styled.audio`
   width: 600px;
   display: none;
 `
-
-//   ._btn-icon:active .track-play__like-svg,
-// ._btn-icon:active .track-play__dislike-svg {
-//   fill: #696969;
-//   stroke: #ffffff;
-//   cursor: pointer;
-// }
