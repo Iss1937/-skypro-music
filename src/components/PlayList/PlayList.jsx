@@ -1,9 +1,10 @@
 import * as S from './styles'
 
-export default function PlayList({ isLoaded, tracks, setCurrentTrack  }) {
-
-  const handleCurrentTrack = (track) => setCurrentTrack(track);
-
+export default function PlayList({ isLoaded, tracks, setCurrentTrackID }) {
+  const handleCurrentTrack = (track) => {
+    setCurrentTrackID(track.id)
+    console.log('click')
+  }
   const fullPlayList = tracks.map((track) => (
     <S.PlaylistItem key={track.id} onClick={() => handleCurrentTrack(track)}>
       <S.PlaylistTrack>
@@ -20,7 +21,7 @@ export default function PlayList({ isLoaded, tracks, setCurrentTrack  }) {
 
           {isLoaded ? (
             <S.TrackTitleText>
-              <S.TrackTitleLink >
+              <S.TrackTitleLink>
                 {track.name} <S.TrackTitleSpan />
               </S.TrackTitleLink>
             </S.TrackTitleText>
@@ -31,9 +32,7 @@ export default function PlayList({ isLoaded, tracks, setCurrentTrack  }) {
 
         {isLoaded ? (
           <S.TrackAuthor>
-            <S.TrackAuthorLink>
-              {track.author}
-            </S.TrackAuthorLink>
+            <S.TrackAuthorLink>{track.author}</S.TrackAuthorLink>
           </S.TrackAuthor>
         ) : (
           <S.SkeletonAuthor> </S.SkeletonAuthor>
@@ -42,9 +41,7 @@ export default function PlayList({ isLoaded, tracks, setCurrentTrack  }) {
         {isLoaded ? (
           <>
             <S.TrackAlbum>
-              <S.TrackAlbumLink >
-                {track.album}
-              </S.TrackAlbumLink>
+              <S.TrackAlbumLink>{track.album}</S.TrackAlbumLink>
             </S.TrackAlbum>
             <S.TrackTime>
               <S.TrackTimeSvg alt="time">
@@ -60,9 +57,5 @@ export default function PlayList({ isLoaded, tracks, setCurrentTrack  }) {
     </S.PlaylistItem>
   ))
 
-  return (
-    <S.ContentPlaylist>
-      {fullPlayList}
-    </S.ContentPlaylist>
-  )
+  return <S.ContentPlaylist>{fullPlayList}</S.ContentPlaylist>
 }
