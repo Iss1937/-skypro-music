@@ -1,8 +1,10 @@
 import * as S from './styles'
+import getDuration from '../../utilits/getduration'
 
-export default function PlayList({ isLoaded, tracks, setCurrentTrack  }) {
-
-  const handleCurrentTrack = (track) => setCurrentTrack(track);
+export default function PlayList({ isLoaded, tracks, setCurrentTrackID }) {
+  const handleCurrentTrack = (track) => {
+    setCurrentTrackID(track.id)
+  }
 
   const fullPlayList = tracks.map((track) => (
     <S.PlaylistItem key={track.id} onClick={() => handleCurrentTrack(track)}>
@@ -20,7 +22,7 @@ export default function PlayList({ isLoaded, tracks, setCurrentTrack  }) {
 
           {isLoaded ? (
             <S.TrackTitleText>
-              <S.TrackTitleLink >
+              <S.TrackTitleLink>
                 {track.name} <S.TrackTitleSpan />
               </S.TrackTitleLink>
             </S.TrackTitleText>
@@ -31,9 +33,7 @@ export default function PlayList({ isLoaded, tracks, setCurrentTrack  }) {
 
         {isLoaded ? (
           <S.TrackAuthor>
-            <S.TrackAuthorLink>
-              {track.author}
-            </S.TrackAuthorLink>
+            <S.TrackAuthorLink>{track.author}</S.TrackAuthorLink>
           </S.TrackAuthor>
         ) : (
           <S.SkeletonAuthor> </S.SkeletonAuthor>
@@ -42,15 +42,15 @@ export default function PlayList({ isLoaded, tracks, setCurrentTrack  }) {
         {isLoaded ? (
           <>
             <S.TrackAlbum>
-              <S.TrackAlbumLink >
-                {track.album}
-              </S.TrackAlbumLink>
+              <S.TrackAlbumLink>{track.album}</S.TrackAlbumLink>
             </S.TrackAlbum>
             <S.TrackTime>
               <S.TrackTimeSvg alt="time">
                 <use xlinkHref="img/icon/sprite.svg#icon-like" />
               </S.TrackTimeSvg>
-              <S.TrackTimeText>{track.release_date}</S.TrackTimeText>
+              <S.TrackTimeText>
+                {getDuration(track.duration_in_seconds)}
+              </S.TrackTimeText>
             </S.TrackTime>
           </>
         ) : (
@@ -60,9 +60,5 @@ export default function PlayList({ isLoaded, tracks, setCurrentTrack  }) {
     </S.PlaylistItem>
   ))
 
-  return (
-    <S.ContentPlaylist>
-      {fullPlayList}
-    </S.ContentPlaylist>
-  )
+  return <S.ContentPlaylist>{fullPlayList}</S.ContentPlaylist>
 }

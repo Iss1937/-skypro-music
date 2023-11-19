@@ -6,7 +6,7 @@ import Nav from '../../components/Nav/Nav'
 import SideBar from '../../components/SideBar/SidBar'
 import Footer from '../../components/Footer/Footer'
 import trackArr from '../../utilits/trackArr'
-import { getTracks } from '../../api'
+import { getAllTracks } from '../../api'
 
 import * as S from './styles'
 
@@ -15,10 +15,12 @@ function Main() {
   const [tracks, setTrackArr] = useState(trackArr)
   const [error, setError] = useState(null)
   const [currentTrack, setCurrentTrack] = useState(null)
+  const [currentTrackID, setCurrentTrackID] = useState(null)
+  const [isPlaying, setIsPlaying] = useState(true)
 
   useEffect(() => {
     setIsLoaded(false)
-    getTracks()
+    getAllTracks()
       .then((tracksArr) => {
         setTrackArr(tracksArr)
       })
@@ -49,13 +51,22 @@ function Main() {
             tracks={tracks}
             error={error}
             currentTrack={currentTrack}
-            setCurrentTrack={setCurrentTrack}
+            setCurrentTrackID={setCurrentTrackID}
+            isPlaying={isPlaying}
+            setIsPlaying={setIsPlaying}
           />
 
           <SideBar isLoaded={isLoaded} />
         </S.Content>
-        {currentTrack && (
-          <Bar isLoaded={isLoaded} currentTrack={currentTrack} />
+        {currentTrackID && (
+          <Bar
+            isLoaded={isLoaded}
+            currentTrack={currentTrack}
+            isPlaying={isPlaying}
+            setIsPlaying={setIsPlaying}
+            currentTrackID={currentTrackID}
+            setCurrentTrack={setCurrentTrack}
+          />
         )}
         <Footer />
       </S.Container>
