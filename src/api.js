@@ -1,20 +1,20 @@
 export async function getAllTracks() {
-  const response = await fetch(
+  const baseURL = await fetch(
     'https://skypro-music-api.skyeng.tech/catalog/track/all/',
   )
-  const tracks = await response.json()
-  if (!response.ok) {
+  const tracks = await baseURL.json()
+  if (!baseURL.ok) {
     throw new Error('Ошибка сервера')
   }
   return tracks
 }
 
 export async function getTracksByID(trackId) {
-  const response = await fetch(
+  const baseURL = await fetch(
     `https://skypro-music-api.skyeng.tech/catalog/track/${trackId}`,
   )
-  const track = await response.json()
-  if (!response.ok) {
+  const track = await baseURL.json()
+  if (!baseURL.ok) {
     throw new Error('Ошибка сервера')
   }
   return track
