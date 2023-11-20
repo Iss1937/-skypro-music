@@ -1,10 +1,15 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { RegApi, LogInApi } from '../../Api/authApi'
 
 import * as S from './styles'
 
-export default function AuthPage({ isLoginMode = false }) {
+export default function AuthPage({
+  isLoginMode = false,
+  setUser,
+  setIsLoginMode,
+}) {
   const [error, setError] = useState(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -13,10 +18,12 @@ export default function AuthPage({ isLoginMode = false }) {
 
   const handleLogin = async () => {
     try {
-      // const result = await LogInApi(email, password);
-      // console.log(result)
+      const response = await LogInApi(email, password)
+      console.log(response)
+      setUser(response.username)
+      localStorage.setItem('user', response.username)
       setOffButton(true)
-      useNavigate('/')
+      window.location.href = '/'
     } catch (curenterror) {
       setError(curenterror.message)
     } finally {
@@ -29,16 +36,21 @@ export default function AuthPage({ isLoginMode = false }) {
       setError('Пароли не совпадают')
     } else {
       try {
-        // const result = await RegApi(email, password);
-        // console.log(result)
+        const response = await RegApi(email, password)
+        console.log(response)
         setOffButton(true)
-        useNavigate('/')
+        setUser(response.username)
+        localStorage.setItem('user', response.username)
+        window.location.href = '/'
       } catch (curenterror) {
         setError(curenterror.message)
       } finally {
         setOffButton(false)
       }
     }
+  }
+  const handleIsLoginMode = () => {
+    setIsLoginMode(true)
   }
 
   // Сбрасываем ошибку если пользователь меняет данные на форме или меняется режим формы
@@ -75,15 +87,21 @@ export default function AuthPage({ isLoginMode = false }) {
                   setPassword(event.target.value)
                 }}
               />
+              <S.ModalInput
+                type="password"
+                name="repeat-password"
+                placeholder="Повторите пароль"
+                value={repeatPassword}
+                onChange={(event) => {
+                  setRepeatPassword(event.target.value)
+                }}
+              />
             </S.Inputs>
             {error && <S.Error>{error}</S.Error>}
             <S.Buttons>
-              <S.PrimaryButton onClick={handleLogin} disabled={offButton}>
-              {offButton? 'Загружаем информацию...':'Войти'}
+              <S.PrimaryButton onClick={handleRegister} disabled={offButton}>
+                {offButton ? 'Загружаем информацию...' : 'Зарегистрироваться'}
               </S.PrimaryButton>
-              <Link to="/register">
-                <S.SecondaryButton>Зарегистрироваться</S.SecondaryButton>
-              </Link>
             </S.Buttons>
           </>
         ) : (
@@ -107,21 +125,17 @@ export default function AuthPage({ isLoginMode = false }) {
                   setPassword(event.target.value)
                 }}
               />
-              <S.ModalInput
-                type="password"
-                name="repeat-password"
-                placeholder="Повторите пароль"
-                value={repeatPassword}
-                onChange={(event) => {
-                  setRepeatPassword(event.target.value)
-                }}
-              />
             </S.Inputs>
             {error && <S.Error>{error}</S.Error>}
             <S.Buttons>
-              <S.PrimaryButton onClick={handleRegister} disabled={offButton}>
-                {offButton? 'Загружаем информацию...':'Зарегистрироваться'}
+              <S.PrimaryButton onClick={handleLogin} disabled={offButton}>
+                {offButton ? 'Загружаем информацию...' : 'Войти'}
               </S.PrimaryButton>
+              <Link to="/Auth">
+                <S.SecondaryButton onClick={handleIsLoginMode}>
+                  Зарегистрироваться
+                </S.SecondaryButton>
+              </Link>
             </S.Buttons>
           </>
         )}
