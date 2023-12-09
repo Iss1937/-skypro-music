@@ -9,31 +9,25 @@ export async function RegApi(email, password) {
     headers: {
       'content-type': 'application/json',
     },
+  }).then((response) => {
+    if (response.status === 400) {
+      return response.json().then((errorResponse) => {
+        if (errorResponse.username) {
+          throw new Error(errorResponse.username)
+        }
+        if (errorResponse.email) {
+          throw new Error(errorResponse.email)
+        }
+        if (errorResponse.password) {
+          throw new Error(errorResponse.password)
+        }
+      })
+    }
+    if (response.status === 500) {
+      throw new Error('Сервер сломался')
+    }
+    return response.json()
   })
-    .then((response) => {
-      if (response.status === 400) {
-        return response.json()
-        .then((errorResponse) => {
-          if (errorResponse.username) {
-            throw new Error(errorResponse.username)
-          }
-          if (errorResponse.email) {
-            throw new Error(errorResponse.email)
-          }
-          if (errorResponse.password) {
-            throw new Error(errorResponse.password)
-          }
-        })
-      } if (response.status === 500) {
-        throw new Error('Сервер сломался')
-      } return response.json()
-    })
-    .then((data) => {
-      console.log(data)
-    })
-  //   .catch((error) => {
-  //     throw error;
-  //   });
 }
 
 export async function LogInApi(email, password) {
@@ -46,29 +40,23 @@ export async function LogInApi(email, password) {
     headers: {
       'content-type': 'application/json',
     },
-  })
-    .then((response) => {
-      if (response.status === 400) {
-        return response.json()
-        .then((errorResponse) => {
-          if (errorResponse.email) {
-            throw new Error(errorResponse.email)
-          }
-          if (errorResponse.password) {
-            throw new Error(errorResponse.password)
-          }
-          throw new Error('Произошла неизвестная ошибка.')
-        })
-      } if (response.status === 401) {
-        return response.json().then((errorResponse) => {
-          throw new Error(errorResponse.detail)
-        })
-      } return response.json()
-    })
-    .then((data) => {
-        console.log(data)
+  }).then((response) => {
+    if (response.status === 400) {
+      return response.json().then((errorResponse) => {
+        if (errorResponse.email) {
+          throw new Error(errorResponse.email)
+        }
+        if (errorResponse.password) {
+          throw new Error(errorResponse.password)
+        }
+        throw new Error('Произошла неизвестная ошибка.')
       })
-    // .catch((error) => {
-    //   throw error
-    // })
+    }
+    if (response.status === 401) {
+      return response.json().then((errorResponse) => {
+        throw new Error(errorResponse.detail)
+      })
+    }
+    return response.json()
+  })
 }

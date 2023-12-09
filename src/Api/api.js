@@ -1,4 +1,4 @@
-export async function getAllTracks() {
+export async function getTracks() {
   const baseURL = await fetch(
     'https://skypro-music-api.skyeng.tech/catalog/track/all/',
   )
