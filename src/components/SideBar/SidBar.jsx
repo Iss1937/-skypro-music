@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import {NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import * as S from './styles'
 import SideBarPerson from '../SideBarPerson/SideBarPerson'
 import categoryArr from '../../utilits/categoryes'
@@ -19,7 +19,7 @@ function SideBar({ isLoaded }) {
 
   return (
     <S.MainSidebar>
-      <SideBarPerson person={{ name: 'Sergey', family: 'Ivanov' }} />
+      <SideBarPerson />
       <S.SidebarBlock>
         <S.SidebarList>{fullCategory}</S.SidebarList>
       </S.SidebarBlock>
@@ -27,4 +27,4 @@ function SideBar({ isLoaded }) {
   )
 }
 
-export default SideBar;
+export default SideBar
