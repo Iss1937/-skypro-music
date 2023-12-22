@@ -4,14 +4,7 @@ import Player from '../Player/Player'
 import VolumeBlock from '../VolumeBlock/VolumeBlock'
 
 // /* eslint-disable import/prefer-default-export */
-function Bar({
-  isLoaded,
-  currentTrack,
-  isPlaying,
-  setIsPlaying,
-  currentTrackID,
-  setCurrentTrack,
-}) {
+function Bar({ isLoaded, isPlaying, setIsPlaying }) {
   const [isRepeat, setIsRepeat] = useState(false)
   const playRef = useRef(null)
   const [volume, setVolume] = useState(0.5)
@@ -57,11 +50,8 @@ function Bar({
         <S.BarPlayerBlock>
           <Player
             isLoaded={isLoaded}
-            currentTrack={currentTrack}
             isPlaying={isPlaying}
             setIsPlaying={setIsPlaying}
-            currentTrackID={currentTrackID}
-            setCurrentTrack={setCurrentTrack}
             isRepeat={isRepeat}
             setIsRepeat={setIsRepeat}
             playRef={playRef}
