@@ -8,30 +8,29 @@ import Footer from '../../components/Footer/Footer'
 import * as S from './styles'
 
 export default function NotFound() {
-
-  const [isLoaded, setIsLoaded] = useState(false)
+  const [isLoading, setisLoading] = useState(false)
 
   useEffect(() => {
-    if (!isLoaded) {
+    if (!isLoading) {
       const timeout = setTimeout(() => {
-        setIsLoaded(true)
+        setisLoading(true)
       }, 10000)
 
       return () => clearTimeout(timeout)
     }
-  }, [isLoaded])
-  
+  }, [isLoading])
+
   return (
-        <S.Wrapper>
-          <S.Container>
-            <S.Content>
-              <Nav />
-              <Search />
-              <NotFoundContent/>
-            </S.Content>
-            <Bar isLoaded={isLoaded} />
-            <Footer />
-          </S.Container>
-        </S.Wrapper>
+    <S.Wrapper>
+      <S.Container>
+        <S.Content>
+          <Nav />
+          <Search />
+          <NotFoundContent />
+        </S.Content>
+        <Bar isLoading={isLoading} />
+        <Footer />
+      </S.Container>
+    </S.Wrapper>
   )
 }
