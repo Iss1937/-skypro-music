@@ -1,81 +1,45 @@
 /* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable consistent-return */
-import { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import Bar from '../../components/Bar/Bar'
-import CenterBlock from '../../components/CenterBlock/CenterBlock'
-import Nav from '../../components/Nav/Nav'
-import SideBar from '../../components/SideBar/SidBar'
-import Footer from '../../components/Footer/Footer'
-import trackArr from '../../utilits/trackArr'
-import { getTracks } from '../../Api/api'
-import { setTracksRedux } from '../../store/action/creator/player'
-import { currentTrackSelector } from '../../store/selectors/player'
-
+import { useSelector, useDispatch } from 'react-redux'
+// import { useEffect } from 'react';
 import * as S from './styles'
+import Search from '../../components/Search/Search'
+import Filter from '../../components/Filter/Filter'
+import PlayListTitle from '../../components/PlayListTitle/PlayListTitle'
+import PlayList from '../../components/PlayList/PlayList'
+import { allTracksSelector } from '../../store/selectors/player'
+import { useGetAllTracksQuery } from '../../services/player'
+import { setCurrentPlaylist } from '../../store/slices/player'
 
-function Main() {
-  const [isLoaded, setIsLoaded] = useState(false)
-  const [tracks] = useState(trackArr)
-  const [error, setError] = useState(null)
-  const [isPlaying, setIsPlaying] = useState(true)
-  const [pause, setPause] = useState(false)
+export default function MainPage({ isPlaying }) {
   const dispatch = useDispatch()
+  const { data = [], isError, isLoading } = useGetAllTracksQuery()
 
-  useEffect(() => {
-    setIsLoaded(false)
-    getTracks()
-      .then((tracksArr) => {
-        dispatch(setTracksRedux(tracksArr))
-        // setTrackArr(tracksArr)
-      })
-      .catch((curenterror) => {
-        setError(curenterror.message)
-      })
-      .finally(() => {
-        setIsLoaded(true)
-      })
-  }, [])
-  const currentTrack = useSelector(currentTrackSelector)
+  dispatch(setCurrentPlaylist(data))
 
-  // useEffect(() => {
-  //   if (!isLoaded) {
-  //     const timeout = setTimeout(() => {
-  //       setIsLoaded(true)
-  //     }, 5000)
-
-  //     return () => clearTimeout(timeout)
-  //   }
-  // }, [isLoaded])
+  const tracks = useSelector(allTracksSelector)
+  console.log(isLoading)
   return (
-    <S.Wrapper>
-      <S.Container>
-        <S.Content>
-          <Nav />
-          <CenterBlock
-            isLoaded={isLoaded}
-            tracks={tracks}
-            error={error}
-            currentTrack={currentTrack}
-            isPlaying={isPlaying}
-            setIsPlaying={setIsPlaying}
-            pause={pause}
-          />
+    <S.MainCenterblock>
+      <Search />
+      <S.CenterblockH2>Треки</S.CenterblockH2>
+      <Filter />
+      <S.CenterblockContent>
+        <PlayListTitle />
 
-          <SideBar isLoaded={isLoaded} />
-        </S.Content>
-        {currentTrack && (
-          <Bar
-            isLoaded={isLoaded}
+        {isError ? (
+          <S.ErrorBlock>
+            <S.ErrorMessage>
+              Не удалось загрузить плейлист, попробуйте позже
+            </S.ErrorMessage>
+          </S.ErrorBlock>
+        ) : (
+          <PlayList
+            isLoading={isLoading}
             isPlaying={isPlaying}
-            setIsPlaying={setIsPlaying}
-            setPause={setPause}
+            tracks={tracks}
           />
         )}
-        <Footer />
-      </S.Container>
-    </S.Wrapper>
+      </S.CenterblockContent>
+    </S.MainCenterblock>
   )
 }
-
-export default Main

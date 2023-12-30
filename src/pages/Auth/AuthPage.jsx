@@ -1,7 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { RegApi, LogInApi } from '../../Api/authApi'
+import { useDispatch } from 'react-redux'
+import { RegApi, LogInApi, getToken } from '../../Api/authApi'
+import { setAuth } from '../../store/slices/auth'
 
 import * as S from './styles'
 
@@ -15,19 +17,49 @@ export default function AuthPage({
   const [password, setPassword] = useState('')
   const [repeatPassword, setRepeatPassword] = useState('')
   const [offButton, setOffButton] = useState(false)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  // const setToken = async () => {
+  //   try {
+  //     await getToken({ email, password }).then((token) => {
+  //       console.log(token)
+  //       dispatch(
+  //         setAuth({
+  //           access: token.access,
+  //           refresh: token.refresh,
+  //           user: JSON.parse(sessionStorage.getItem('user')),
+  //         })
+  //       )
+  //     })
+  //   } catch (currentError) {
+  //     console.log(error)
+  //   }
+  // }
 
   const handleLogin = async () => {
     try {
       const response = await LogInApi(email, password)
-      console.log(response)
-      setUser(response.username)
-      localStorage.setItem('user', response.username)
+      setUser(response)
+      localStorage.setItem('user', JSON.stringify(response))
       setOffButton(true)
-      window.location.href = '/'
+      navigate('/')
     } catch (curenterror) {
       setError(curenterror.message)
     } finally {
       setOffButton(false)
+    }
+
+    try {
+      const token = await getToken(email, password)
+      dispatch(
+        setAuth({
+          access: token.access,
+          refresh: token.refresh,
+          user: JSON.parse(localStorage.getItem('user')),
+        }),
+      )
+    } catch (currentError) {
+      console.log(error)
     }
   }
 
@@ -37,18 +69,31 @@ export default function AuthPage({
     } else {
       try {
         const response = await RegApi(email, password)
-        console.log(response)
         setOffButton(true)
-        setUser(response.username)
-        localStorage.setItem('user', response.username)
-        window.location.href = '/'
+        setUser(response)
+        localStorage.setItem('user', JSON.stringify(response))
+        navigate('/')
       } catch (curenterror) {
         setError(curenterror.message)
       } finally {
         setOffButton(false)
       }
     }
+
+    try {
+      const token = await getToken(email, password)
+      dispatch(
+        setAuth({
+          access: token.access,
+          refresh: token.refresh,
+          user: JSON.parse(localStorage.getItem('user')),
+        }),
+      )
+    } catch (currentError) {
+      console.log(error)
+    }
   }
+
   const handleIsLoginMode = () => {
     setIsLoginMode(true)
   }
