@@ -1,18 +1,17 @@
-/* eslint-disable import/no-extraneous-dependencies */
-/* eslint-disable import/prefer-default-export */
 import { configureStore } from '@reduxjs/toolkit'
+import tracksReducer from './slices/tracksSlice'
+import authenticationReducer from './slices/authenticationSlice'
+import { tracksListApi } from '../services/trackListService'
 
-import trackReducer from './slices/player'
-// import trackReducer from './reducers/player';
-import authReducer from './slices/auth'
-import { tracksApi } from '../services/player'
-
+//configureStore объединяет все Reducers
 export const store = configureStore({
   reducer: {
-    player: trackReducer,
-    auth: authReducer,
-    [tracksApi.reducerPath]: tracksApi.reducer,
+    audioplayer: tracksReducer,
+    authentication: authenticationReducer,
+    [tracksListApi.reducerPath]: tracksListApi.reducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(tracksApi.middleware),
+  middleware: (getDefaultMiddleware) => [
+    ...getDefaultMiddleware(),
+    tracksListApi.middleware,
+  ],
 })

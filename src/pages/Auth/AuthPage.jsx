@@ -1,101 +1,86 @@
-/* eslint-disable import/no-extraneous-dependencies */
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import * as S from './AuthPage.styles'
 import { useEffect, useState } from 'react'
+import { getToken, loginUser, registerUser } from '../../api/Api'
+import { useNavigate } from 'react-router-dom'
+import { useContext } from 'react'
+import { UserContext } from '../../contexts/User'
 import { useDispatch } from 'react-redux'
-import { RegApi, LogInApi, getToken } from '../../Api/authApi'
-import { setAuth } from '../../store/slices/auth'
+import { setAuthentication } from '../../store/slices/authenticationSlice'
 
-import * as S from './styles'
-
-export default function AuthPage({
-  isLoginMode = false,
-  setUser,
-  setIsLoginMode,
-}) {
+export default function AuthPage({ isLoginMode = false }) {
+  const { setAuthUser } = useContext(UserContext)
+  const navigate = useNavigate()
   const [error, setError] = useState(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [repeatPassword, setRepeatPassword] = useState('')
-  const [offButton, setOffButton] = useState(false)
+  const [loginLoading, setLoginLoading] = useState(false)
+  const [registerLoading, setRegisterLoading] = useState(false)
   const dispatch = useDispatch()
-  const navigate = useNavigate()
-  // const setToken = async () => {
-  //   try {
-  //     await getToken({ email, password }).then((token) => {
-  //       console.log(token)
-  //       dispatch(
-  //         setAuth({
-  //           access: token.access,
-  //           refresh: token.refresh,
-  //           user: JSON.parse(sessionStorage.getItem('user')),
-  //         })
-  //       )
-  //     })
-  //   } catch (currentError) {
-  //     console.log(error)
-  //   }
-  // }
 
-  const handleLogin = async () => {
+  const handleLogin = async ({ email, password }) => {
+    if (!email) {
+      setError('Не заполнена почта')
+      return
+    } else if (!password) {
+      setError('Не введён пароль')
+      return
+    }
+
+    setLoginLoading(true)
     try {
-      const response = await LogInApi(email, password)
-      setUser(response)
-      localStorage.setItem('user', JSON.stringify(response))
-      setOffButton(true)
-      navigate('/')
-    } catch (curenterror) {
-      setError(curenterror.message)
+      await loginUser({ email, password }).then((res) => {
+        sessionStorage.setItem('user', JSON.stringify(res))
+        setAuthUser(res)
+        navigate('/')
+      })
+    } catch (error) {
+      console.log(error)
+      setError(error.message)
     } finally {
-      setOffButton(false)
+      setLoginLoading(false)
     }
 
     try {
-      const token = await getToken(email, password)
-      dispatch(
-        setAuth({
-          access: token.access,
-          refresh: token.refresh,
-          user: JSON.parse(localStorage.getItem('user')),
-        }),
-      )
-    } catch (currentError) {
+      await getToken({ email, password }).then((token) => {
+        dispatch(
+          setAuthentication({
+            access: token.access,
+            refresh: token.refresh,
+            user: JSON.parse(sessionStorage.getItem('user')),
+          })
+        )
+      })
+    } catch (error) {
       console.log(error)
     }
   }
 
   const handleRegister = async () => {
-    if (password !== repeatPassword) {
+    if (!email) {
+      setError('Не заполнена почта')
+      return
+    } else if (!password) {
+      setError('Не введён пароль')
+      return
+    } else if (!repeatPassword) {
+      setError('Не введён повторный пароль')
+      return
+    } else if (password !== repeatPassword) {
       setError('Пароли не совпадают')
-    } else {
-      try {
-        const response = await RegApi(email, password)
-        setOffButton(true)
-        setUser(response)
-        localStorage.setItem('user', JSON.stringify(response))
-        navigate('/')
-      } catch (curenterror) {
-        setError(curenterror.message)
-      } finally {
-        setOffButton(false)
-      }
+      return
     }
 
+    setRegisterLoading(true)
     try {
-      const token = await getToken(email, password)
-      dispatch(
-        setAuth({
-          access: token.access,
-          refresh: token.refresh,
-          user: JSON.parse(localStorage.getItem('user')),
-        }),
-      )
-    } catch (currentError) {
-      console.log(error)
+      await registerUser({ email, password })
+      navigate('/login')
+    } catch (error) {
+      setError(error.message)
+    } finally {
+      setRegisterLoading(false)
     }
-  }
-
-  const handleIsLoginMode = () => {
-    setIsLoginMode(true)
   }
 
   // Сбрасываем ошибку если пользователь меняет данные на форме или меняется режим формы
@@ -132,21 +117,18 @@ export default function AuthPage({
                   setPassword(event.target.value)
                 }}
               />
-              <S.ModalInput
-                type="password"
-                name="repeat-password"
-                placeholder="Повторите пароль"
-                value={repeatPassword}
-                onChange={(event) => {
-                  setRepeatPassword(event.target.value)
-                }}
-              />
             </S.Inputs>
             {error && <S.Error>{error}</S.Error>}
             <S.Buttons>
-              <S.PrimaryButton onClick={handleRegister} disabled={offButton}>
-                {offButton ? 'Загружаем информацию...' : 'Зарегистрироваться'}
+              <S.PrimaryButton
+                onClick={() => handleLogin({ email, password })}
+                disabled={loginLoading}
+              >
+                Войти
               </S.PrimaryButton>
+              <Link to="/register">
+                <S.SecondaryButton>Зарегистрироваться</S.SecondaryButton>
+              </Link>
             </S.Buttons>
           </>
         ) : (
@@ -170,17 +152,24 @@ export default function AuthPage({
                   setPassword(event.target.value)
                 }}
               />
+              <S.ModalInput
+                type="password"
+                name="repeat-password"
+                placeholder="Повторите пароль"
+                value={repeatPassword}
+                onChange={(event) => {
+                  setRepeatPassword(event.target.value)
+                }}
+              />
             </S.Inputs>
             {error && <S.Error>{error}</S.Error>}
             <S.Buttons>
-              <S.PrimaryButton onClick={handleLogin} disabled={offButton}>
-                {offButton ? 'Загружаем информацию...' : 'Войти'}
+              <S.PrimaryButton
+                onClick={handleRegister}
+                disabled={registerLoading}
+              >
+                Зарегистрироваться
               </S.PrimaryButton>
-              <Link to="/Auth">
-                <S.SecondaryButton onClick={handleIsLoginMode}>
-                  Зарегистрироваться
-                </S.SecondaryButton>
-              </Link>
             </S.Buttons>
           </>
         )}

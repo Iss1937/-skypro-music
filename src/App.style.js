@@ -1,6 +1,6 @@
 import styled, { createGlobalStyle } from 'styled-components'
 
-export const GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
 * {
   margin: 0;
   padding: 0;
@@ -45,14 +45,7 @@ body {
   height: 100%;
   font-family: 'StratosSkyeng', sans-serif;
   color: #ffffff;
-}
-.wrapper {
-  width: 100%;
-  min-height: 100%;
-  overflow: hidden;
-  background-color: #181818;
-}
-`
+}`
 
 export const Button = styled.div`
   cursor: pointer;
@@ -81,7 +74,6 @@ export const Button = styled.div`
 `
 export const App = styled.div`
   max-width: 1920px;
-  height: 100vh;
   margin: 0 auto;
   position: relative;
   background-color: #181818;
