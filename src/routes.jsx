@@ -5,17 +5,14 @@ import {
   ProtectedRoute,
   ProtectedRouteLogout,
 } from './components/protected-route/ProtectedRoute'
-import AuthPage from './pages/auth/AuthPage'
+import AuthPage from './pages/Auth/AuthPage'
 import { UserProvider } from './contexts/User'
 import PageLayout from './pages/pagelayout/PageLayout'
 import PageMyTracks from './pages/my-tracks/PageMyTracks'
 import { useState } from 'react'
 import Catalog from './pages/catalog/Catalog'
 
-export const AppRoutes = ({
-  isOpenPlayer,
-  setIsOpenPlayer,
-}) => {
+export const AppRoutes = ({ isOpenPlayer, setIsOpenPlayer }) => {
   const [isAnimatePlayTrack, setIsAnimatePlayTrack] = useState(isOpenPlayer)
 
   return (
