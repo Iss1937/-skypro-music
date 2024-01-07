@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import * as S from './AuthPage.styles'
 import { useEffect, useState } from 'react'
-import { getToken, loginUser, registerUser } from '../../api/Api'
+import { getToken, loginUser, registerUser } from '../../Api/Api'
 import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { UserContext } from '../../contexts/User'
@@ -49,7 +49,7 @@ export default function AuthPage({ isLoginMode = false }) {
             access: token.access,
             refresh: token.refresh,
             user: JSON.parse(sessionStorage.getItem('user')),
-          })
+          }),
         )
       })
     } catch (error) {
