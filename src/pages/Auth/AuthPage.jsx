@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import * as S from './AuthPage.styles'
 import { useEffect, useState } from 'react'
-import { getToken, loginUser, registerUser } from '../../Api/Api'
+import { getToken, loginUser, registerUser } from '../../Api1/Api1'
 import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { UserContext } from '../../contexts/User'
