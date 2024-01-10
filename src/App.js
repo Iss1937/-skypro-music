@@ -1,39 +1,43 @@
-/* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable consistent-return */
-
-import { useState, useEffect } from 'react'
+import * as S from './App.style'
 import GlobalStyle from './App.style'
-import AppRoutes from './routes'
-import UserContext from './Context/UserContext'
+import { AppRoutes } from './routes'
+import { useState } from 'react'
+import './index.css'
+import { useDispatch } from 'react-redux'
+import { setAuthentication } from './store/slices/authenticationSlice'
+import { useEffect } from 'react'
 
 function App() {
-  const [user, setUser] = useState(localStorage.getItem('user') || null)
-  const [isLoginMode, setIsLoginMode] = useState(false)
+  const [isOpenPlayer, setIsOpenPlayer] = useState(false)
+  const dispatch = useDispatch()
+
+  const hadleLogin = () => {
+    try {
+      dispatch(
+        setAuthentication({
+          access: sessionStorage.getItem('access').replace(/"/g, ''),
+          refresh: sessionStorage.getItem('refresh').replace(/"/g, ''),
+          user: sessionStorage.getItem('user').replace(/"/g, ''),
+        })
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
-    const currentIsLoginMode = localStorage.getItem('isLoginMode')
-    console.log(currentIsLoginMode)
-    setIsLoginMode(currentIsLoginMode || false)
-    console.log(isLoginMode)
+    hadleLogin()
   }, [])
 
-  // const handleLogout = () => {
-  //   localStorage.removeItem('user');
-  //   const curentLocalStorage = localStorage.getItem('user');
-  //   console.log(curentLocalStorage)
-  //   setUser(curentLocalStorage);
-  // }
   return (
     <>
       <GlobalStyle />
-      <UserContext.Provider value={{ user, setUser }}>
+      <S.App>
         <AppRoutes
-          //user={user}
-          setUser={setUser}
-          isLoginMode={isLoginMode}
-          setIsLoginMode={setIsLoginMode}
+          isOpenPlayer={isOpenPlayer}
+          setIsOpenPlayer={setIsOpenPlayer}
         />
-      </UserContext.Provider>
+      </S.App>
     </>
   )
 }
